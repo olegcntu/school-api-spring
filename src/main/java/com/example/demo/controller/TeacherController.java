@@ -23,10 +23,12 @@ import java.util.stream.Collectors;
 public class TeacherController {
     @Autowired
     TeacherService teacherService;
-
+    static int count = 1;
 
     @PostMapping("/add-teacher")
     public ResponseEntity<ApiResponse> addTeacher(@Valid @RequestBody Teacher teacher) {
+        teacher.setId(count);
+        count++;
         try {
             boolean added = teacherService.addTeacher(teacher);
             String message = added ? "Учитель успешно добавлен" : "Учитель не может быть добавлен (какая-то ошибка)";
@@ -45,6 +47,15 @@ public class TeacherController {
         return new ResponseEntity<>(teachers, HttpStatus.OK);
     }
 
+    @GetMapping("/teachers/{id}")
+    public ResponseEntity<Teacher> getTeacherById(@PathVariable("id") Integer id) {
+        Teacher teacher = teacherService.getTeacherById(id);
+        if (teacher != null) {
+            return new ResponseEntity<>(teacher, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 
 }
 

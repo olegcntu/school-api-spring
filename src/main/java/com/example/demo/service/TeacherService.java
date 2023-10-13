@@ -10,13 +10,21 @@ import java.util.List;
 public class TeacherService {
     private final ArrayList<Teacher> teacherList = new ArrayList<>();
     public boolean addTeacher(Teacher teacher) {
-
         boolean added = teacherList.add(teacher);
         return added;
     }
 
     public List<Teacher> getAllTeachers() {
         return teacherList;
+    }
+
+    public Teacher getTeacherById(int id) {
+        for (Teacher teacher : teacherList) {
+            if (teacher.getId() == id) {
+                return teacher;
+            }
+        }
+        return null;
     }
 
 }
